@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScrollDatepicker</title>
+    <link rel="stylesheet" href="/reset.css">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+    <!-- 來自 https://codepen.io/gnauhca/pen/JrdpZZ -->
+
+<!-- 選取 Date() 
+focus
+出現scroll選單
+數值改變 Date()裡面就跟著改變
+
+取消 scroll收起來 值不改變
+確定 scroll收起來 值改變
+如果 後面的日期大於前面的日期 跳出error
+
+ -->
+
+ <div class="container">
+
+    <input type="date" id="date-input-start" required />
+
+<input type="date" id="date-input-end" required  />
+
+<button id="cancelBtn">取消</button>
+<button id="submitBtn">確定</button>
+
+
+
+
+<div class="date-selector">
+	<div class="year" id="year1"></div>
+	<div class="month" id="month1"></div>
+	<div class="day" id="day1"></div>
+</div>
+
+
+
+
+
+
+
+ </div>
+
+
+
+ <script type="text/javascript" src="/scripts.js"></script>
+ 
+
+    
+</body>
+</html>
