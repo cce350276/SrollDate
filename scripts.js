@@ -1,22 +1,51 @@
 // 嘗試
-let inputStart = document.getElementById("date-input-end").value;
-let inputEnd = document.getElementById("date-input-start").value;
+let inputStart = document.getElementById("date-input-start");
+let inputEnd =document.getElementById("date-input-end") ;
 let startDateOutside;
 let endDateOutside;
 console.log("B");
-console.log(document.getElementById("date-input-start").value);
+console.log(inputStart.value);
 
-inputStart.focuse
-
-
-
-
-
-function showDate(){
-  console.log("A");
+inputStart.addEventListener("focus",function() {
+    inputStart.focusVisible=true;
+    startDateOutside=inputStart.value;
+  console.log(inputStart.focusVisible);
   
-  console.log(document.getElementById("date-input").value);
+  });
+
+  inputStart.addEventListener("blur",function() {
+    inputStart.focusVisible=false;
+    inputStart.value=startDateOutside;
+    console.log(inputStart.focusVisible);
+    
+    });
+
+    inputEnd.addEventListener("focus",function() {
+        inputEnd.focusVisible=true;
+        EndtDateOutside=inputStart.value;
+      console.log(inputEnd.focusVisible);
+      
+      });
+    
+      inputEnd.addEventListener("blur",function() {
+        inputEnd.focusVisible=false;
+        inputEnd.value=EndtDateOutside;
+        console.log(inputEnd.focusVisible);
+        
+        });
+  
+
+function ScrollDate(){
+
+    if(inputStart.focusVisible){
+        console.log("inputStart.focus");
+    inputStart.value=yearSelector.value+'-'+(monthSelector.value>10?monthSelector.value:'0'+monthSelector.value)+'-'+daySelector.value;}else if(inputEnd.focusVisible){
+        console.log("inputEnd.focus");
+        inputEnd.value=yearSelector.value+'-'+(monthSelector.value>10?monthSelector.value:'0'+monthSelector.value)+'-'+daySelector.value;}
+
+
 }
+
 
 
 
@@ -531,7 +560,17 @@ yearSelector = new IosSelector({
 		daySource = getDays(currentYear, currentMonth);
 		daySelector.updateSource(daySource);
 		console.log(yearSelector.value, monthSelector.value, daySelector.value);
-     document.getElementById("date-input").value=yearSelector.value+'-'+monthSelector.value+'-'+daySelector.value;
+        console.log("year");
+
+        ScrollDate();
+           
+        
+
+
+
+
+
+     
 	}
 });
 
@@ -560,7 +599,7 @@ daySelector = new IosSelector({
 	onChange: (selected) => {
 		currentDay = selected.value;
 		console.log(yearSelector.value, monthSelector.value, daySelector.value);
-    document.getElementById("date-input").value=yearSelector.value+'-'+monthSelector.value+'-'+daySelector.value;
+
 	}
 });
 

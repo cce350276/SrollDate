@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,11 +9,12 @@
     <link rel="stylesheet" href="/reset.css">
     <link rel="stylesheet" href="/style.css">
 </head>
+
 <body>
 
     <!-- 來自 https://codepen.io/gnauhca/pen/JrdpZZ -->
 
-<!-- 選取 Date() 
+    <!-- 選取 Date() 
 focus
 出現scroll選單
 數值改變 Date()裡面就跟著改變
@@ -23,37 +25,44 @@ focus
 
  -->
 
- <div class="container">
+    <div class="container">
 
-    <input type="date" id="date-input-start" required />
+        <div class="date-wrap">
 
-<input type="date" id="date-input-end" required  />
+            <input type="date" id="date-input-start" required />
 
-<button id="cancelBtn">取消</button>
-<button id="submitBtn">確定</button>
+            <input type="date" id="date-input-end" required />
 
+        </div>
 
+        <div class="btn-wrap">
 
-
-<div class="date-selector">
-	<div class="year" id="year1"></div>
-	<div class="month" id="month1"></div>
-	<div class="day" id="day1"></div>
-</div>
+            <button id="cancelBtn">取消</button>
+            <button id="submitBtn">確定</button>
 
 
+        </div>
 
-
-
-
-
- </div>
+        <div class="date-selector">
+            <div class="year" id="year1"></div>
+            <div class="month" id="month1"></div>
+            <div class="day" id="day1"></div>
+        </div>
 
 
 
- <script type="text/javascript" src="/scripts.js"></script>
- 
 
-    
+
+
+
+    </div>
+
+
+
+    <script type="text/javascript" src="/scripts.js"></script>
+
+
+
 </body>
+
 </html>
