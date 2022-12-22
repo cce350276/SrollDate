@@ -1,47 +1,51 @@
 // 嘗試
 let inputStart = document.getElementById("date-input-start");
-let inputEnd =document.getElementById("date-input-end") ;
+let inputEnd = document.getElementById("date-input-end");
 let startDateOutside;
 let endDateOutside;
-console.log("B");
-console.log(inputStart.value);
+console.log("啟動A");
 
-inputStart.addEventListener("focus",function() {
-    inputStart.focusVisible=true;
-    startDateOutside=inputStart.value;
-  console.log(inputStart.focusVisible);
-  
-  });
 
-  inputStart.addEventListener("blur",function() {
-    inputStart.focusVisible=false;
-    inputStart.value=startDateOutside;
-    console.log(inputStart.focusVisible);
-    
-    });
+inputStart.addEventListener("focus", function () {
+  inputStart.focusVisible = true;
+  startDateOutside = inputStart.value;
+  console.log("inputStart.focusVisible"+inputStart.focusVisible);
 
-    inputEnd.addEventListener("focus",function() {
-        inputEnd.focusVisible=true;
-        EndtDateOutside=inputStart.value;
-      console.log(inputEnd.focusVisible);
-      
-      });
-    
-      inputEnd.addEventListener("blur",function() {
-        inputEnd.focusVisible=false;
-        inputEnd.value=EndtDateOutside;
-        console.log(inputEnd.focusVisible);
-        
-        });
-  
+});
 
-function ScrollDate(){
+inputStart.addEventListener("blur", function () {
+  inputStart.focusVisible = false;
+  inputStart.value = startDateOutside;
+  console.log("inputStart.focusVisible"+inputStart.focusVisible);
 
-    if(inputStart.focusVisible){
-        console.log("inputStart.focus");
-    inputStart.value=yearSelector.value+'-'+(monthSelector.value>10?monthSelector.value:'0'+monthSelector.value)+'-'+daySelector.value;}else if(inputEnd.focusVisible){
-        console.log("inputEnd.focus");
-        inputEnd.value=yearSelector.value+'-'+(monthSelector.value>10?monthSelector.value:'0'+monthSelector.value)+'-'+daySelector.value;}
+});
+
+inputEnd.addEventListener("focus", function () {
+  inputEnd.focusVisible = true;
+  EndtDateOutside = inputStart.value;
+  console.log("inputEnd.focusVisible"+inputEnd.focusVisible);
+
+});
+
+inputEnd.addEventListener("blur", function () {
+  inputEnd.focusVisible = false;
+  inputEnd.value = EndtDateOutside;
+  console.log("inputEnd.focusVisible"+inputEnd.focusVisible);
+
+});
+
+
+function ScrollDate() {
+  console.log("ScrollDate()");
+  if (inputStart.focusVisible) {
+    console.log("當開始時間focus");
+    inputStart.value = yearSelector.value + '-' + (monthSelector.value > 9 ? monthSelector.value : '0' + monthSelector.value) + '-' + daySelector.value;
+    console.log("當開始時間focus"+inputStart.value);
+  } else if (inputEnd.focusVisible) {
+    console.log("當結束時間focus");
+    inputEnd.value = yearSelector.value + '-' + (monthSelector.value > 9 ? monthSelector.value : '0' + monthSelector.value) + '-' + daySelector.value;
+    console.log("當結束時間focus"+inputEnd.value);
+  }
 
 
 }
@@ -52,11 +56,13 @@ function ScrollDate(){
 
 // 以下原本的coding
 const easing = {
-  easeOutCubic: function(pos) {
-    return (Math.pow((pos-1), 3) +1);
+  easeOutCubic: function (pos) {
+    console.log("easeOutCubic");
+    return (Math.pow((pos - 1), 3) + 1);
   },
-  easeOutQuart: function(pos) {
-    return -(Math.pow((pos-1), 4) -1);
+  easeOutQuart: function (pos) {
+    console.log("easeOutQuart");
+    return -(Math.pow((pos - 1), 4) - 1);
   },
 };
 
@@ -73,7 +79,7 @@ class IosSelector {
     };
 
     this.options = Object.assign({}, defaults, options);
-    this.options.count =  this.options.count - this.options.count % 4;
+    this.options.count = this.options.count - this.options.count % 4;
     Object.assign(this, this.options);
 
     this.halfCount = this.options.count / 2;
@@ -110,6 +116,7 @@ class IosSelector {
   }
 
   _init() {
+    console.log("_init");
     this._create(this.options.source);
 
     let touchData = {
@@ -141,6 +148,7 @@ class IosSelector {
   }
 
   _touchstart(e, touchData) {
+    console.log("_touchstart");
     this.elems.el.addEventListener('touchmove', this.events.touchmove);
     document.addEventListener('mousemove', this.events.touchmove);
     let eventY = e.clientY || e.touches[0].clientY;
@@ -151,6 +159,7 @@ class IosSelector {
   }
 
   _touchmove(e, touchData) {
+    console.log("_touchmove");
     let eventY = e.clientY || e.touches[0].clientY;
     touchData.yArr.push([eventY, new Date().getTime()]);
     if (touchData.length > 5) {
@@ -176,7 +185,8 @@ class IosSelector {
   }
 
   _touchend(e, touchData) {
-    // console.log(e);
+    console.log("_touchend");
+    console.log(e);
     this.elems.el.removeEventListener('touchmove', this.events.touchmove);
     document.removeEventListener('mousemove', this.events.touchmove);
 
@@ -204,6 +214,8 @@ class IosSelector {
   }
 
   _create(source) {
+
+    console.log("_create");
 
     if (!source.length) {
       return;
@@ -292,8 +304,8 @@ class IosSelector {
     }
 
     this.elems.el.innerHTML = template
-                                .replace('{{circleListHTML}}', circleListHTML)
-                                .replace('{{highListHTML}}', highListHTML);
+      .replace('{{circleListHTML}}', circleListHTML)
+      .replace('{{highListHTML}}', highListHTML);
     this.elems.circleList = this.elems.el.querySelector('.select-options');
     this.elems.circleItems = this.elems.el.querySelectorAll('.select-option');
 
@@ -318,9 +330,10 @@ class IosSelector {
    * @return 取模之后的 normalizedScroll
    */
   _normalizeScroll(scroll) {
+    console.log("_normalizeScroll");
     let normalizedScroll = scroll;
 
-    while(normalizedScroll < 0) {
+    while (normalizedScroll < 0) {
       normalizedScroll += this.source.length;
     }
     normalizedScroll = normalizedScroll % this.source.length;
@@ -333,6 +346,7 @@ class IosSelector {
    * @return 返回指定 normalize 之后的 scroll
    */
   _moveTo(scroll) {
+    console.log("_moveTo");
     if (this.type === 'infinite') {
       scroll = this._normalizeScroll(scroll);
     }
@@ -406,7 +420,7 @@ class IosSelector {
     }
 
     // await this._animateToScroll(this.scroll, finalScroll, initV, 0);
-    
+
     this._selectByScroll(this.scroll);
   }
 
@@ -419,7 +433,7 @@ class IosSelector {
     let start = new Date().getTime() / 1000;
     let pass = 0;
     let totalScrollLen = finalScroll - initScroll;
-    
+
     // console.log(initScroll, finalScroll, initV, finalV, a);
     return new Promise((resolve, reject) => {
       this.moving = true;
@@ -472,7 +486,7 @@ class IosSelector {
         // this.scroll = this._moveTo(i);
         let initScroll = this._normalizeScroll(this.scroll);
         let finalScroll = i;
-        let t = Math.sqrt(Math.abs((finalScroll -  initScroll) / this.a));
+        let t = Math.sqrt(Math.abs((finalScroll - initScroll) / this.a));
         this._animateToScroll(initScroll, finalScroll, t);
         setTimeout(() => this._selectByScroll(i));
         return;
@@ -501,44 +515,48 @@ class IosSelector {
 
 
 function getYears() {
-	let currentYear = new Date().getFullYear();
-	let years = [];
+  console.log("getYears");
+  let currentYear = new Date().getFullYear();
+  let years = [];
 
-	for (let i = currentYear - 20; i < currentYear + 20; i++) {
-		years.push({
-			value: i,
-			text: i + '年'
-		});
-	}
-	return years;
+  for (let i = currentYear - 20; i < currentYear + 20; i++) {
+    years.push({
+      value: i,
+      text: i + '年'
+    });
+  }
+  return years;
 }
 
 function getMonths(year) {
-	let months = [];
-	for (let i = 1; i <= 12; i++) {
-		months.push({
-			value: i,
-			text: i + '月'
-		});
-	}
-	return months;
+  let months = [];
+  for (let i = 1; i <= 12; i++) {
+    months.push({
+      value: i,
+      text: i + '月'
+    });
+  }
+  return months;
 }
 
 function getDays(year, month) {
-	let dayCount = new Date(year,month,0).getDate(); 
-	let days = [];
+  let dayCount = new Date(year, month, 0).getDate();
+  let days = [];
 
-	for (let i = 1; i <= dayCount; i++) {
-		days.push({
-			value: i,
-			text: i + '日'
-		});
-	}
+  for (let i = 1; i <= dayCount; i++) {
+    days.push({
+      value: i,
+      text: i + '日'
+    });
+  }
 
-	return days; 
+  return days;
 }
 
+console.log("啟動B");
+
 let currentYear = new Date().getFullYear();
+console.log("currentYear"+currentYear);
 let currentMonth = 1;
 let currentDay = 1;
 
@@ -550,66 +568,63 @@ yearSource = getYears();
 monthSource = getMonths();
 daySource = getDays(currentYear, currentMonth);
 
+console.log("啟動C");
 yearSelector = new IosSelector({
-	el: '#year1',
-	type: 'infinite',
-	source: yearSource,
-	count: 20,
-	onChange: (selected) => {
-		currentYear = selected.value;
-		daySource = getDays(currentYear, currentMonth);
-		daySelector.updateSource(daySource);
-		console.log(yearSelector.value, monthSelector.value, daySelector.value);
-        console.log("year");
-
-        ScrollDate();
-           
-        
-
-
-
-
-
-     
-	}
+  el: '#year1',
+  type: 'infinite',
+  source: yearSource,
+  count: 20,
+  onChange: (selected) => {
+    currentYear = selected.value;
+    daySource = getDays(currentYear, currentMonth);
+    daySelector.updateSource(daySource);
+    console.log(yearSelector.value, monthSelector.value, daySelector.value);
+    console.log("year");
+    ScrollDate();
+  }
 });
 
+console.log("啟動D");
 monthSelector = new IosSelector({
-	el: '#month1',
-	type: 'infinite',
-	source: monthSource,
-	count: 20,
-	onChange: (selected) => {
-		currentMonth = selected.value;
-		
-		daySource = getDays(currentYear, currentMonth);
-		daySelector.updateSource(daySource);
-		console.log(yearSelector.value, monthSelector.value, daySelector.value);
-    
- document.getElementById("date-input").value=yearSelector.value+'-'+monthSelector.value+'-'+daySelector.value;
-	}
-  
+  el: '#month1',
+  type: 'infinite',
+  source: monthSource,
+  count: 20,
+  onChange: (selected) => {
+    currentMonth = selected.value;
+    daySource = getDays(currentYear, currentMonth);
+    daySelector.updateSource(daySource);
+    console.log(yearSelector.value, monthSelector.value, daySelector.value);
+    console.log("month");
+    ScrollDate();
+  }
+
 });
+
+console.log("啟動E");
 
 daySelector = new IosSelector({
-	el: '#day1',
-	type: 'infinite',
-	source: [],
-	count: 20,
-	onChange: (selected) => {
-		currentDay = selected.value;
-		console.log(yearSelector.value, monthSelector.value, daySelector.value);
+  el: '#day1',
+  type: 'infinite',
+  source: [],
+  count: 20,
+  onChange: (selected) => {
+    currentDay = selected.value;
+    console.log(yearSelector.value, monthSelector.value, daySelector.value);
+    console.log("day");
+    ScrollDate();
 
-	}
+  }
 });
 
-
+console.log("啟動F");
 let now = new Date();
 
 
-setTimeout(function() {
+setTimeout(function () {
+  console.log("setTimeout-GGGGGGGGGGGGGGGGGG");
   yearSelector.select(now.getFullYear());
   monthSelector.select(now.getMonth() + 1);
-  daySelector.select(now.getDate()); 
+  daySelector.select(now.getDate());
 });
 
