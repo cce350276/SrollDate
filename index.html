@@ -29,29 +29,31 @@ focus
 
         <div class="date-wrap">
 
-            <input type="date" id="date-input-start" required />
+            <input type="date" id="date-input-start" required onClick="event.preventDefault()" />
 
-            <input type="date" id="date-input-end" required />
-
-        </div>
-
-        <div class="btn-wrap">
-
-            <button id="cancelBtn">取消</button>
-            <button id="submitBtn">確定</button>
-
+            <input type="date" id="date-input-end" required onClick="event.preventDefault()" />
 
         </div>
+        <p id="warningText"></p>
 
-        <div class="date-selector">
-            <div class="year" id="year1"></div>
-            <div class="month" id="month1"></div>
-            <div class="day" id="day1"></div>
+        <div class="scrollBlock">
+
+            <div class="date-selector">
+                <div class="year" id="year1"></div>
+                <div class="month" id="month1"></div>
+                <div class="day" id="day1"></div>
+            </div>
+            <div class="btn-wrap">
+
+                <button id="cancelBtn">取消</button>
+                <button id="submitBtn">確定</button>
+
+
+            </div>
+
+
+
         </div>
-
-
-
-
 
 
 

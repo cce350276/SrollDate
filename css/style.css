@@ -20,6 +20,22 @@ body {
 .container > div input, .container > div button {
   margin: 3px;
 }
+.container > :nth-child(3) {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  height: inherit;
+  overflow: hidden;
+}
+.container > :nth-child(3) > div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
 
 .select-wrap {
   position: relative;

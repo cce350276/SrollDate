@@ -7,15 +7,28 @@ body {
     width: 100%;
     max-width: 750px;
     margin: 0 auto;
+
+    >div{
+      display:flex;
+      justify-content: center;
+      input,button{
+      margin: 3px;
+    }
+
+    }
     
-    >div {
+    >:nth-child(3) {
+
+      flex-direction: column;
+      >div{
         display:flex;
         justify-content: center;
-        
+      }
+      height: inherit;
+      overflow: hidden;
 
-        input,button{
-            margin: 3px;
-        }
+
+
     }
     
 }

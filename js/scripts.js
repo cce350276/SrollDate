@@ -1,36 +1,135 @@
-// 嘗試
-let inputStart = document.getElementById("date-input-start");
-let inputEnd = document.getElementById("date-input-end");
+// 嘗試t
+const inputStart = document.getElementById("date-input-start");
+const inputEnd = document.getElementById("date-input-end");
+const btnCancel = document.getElementById("cancelBtn");
+const btnOk = document.getElementById("submitBtn");
+const scrollBlock = document.getElementsByClassName("scrollBlock")[0];
+const warningText = document.getElementById("warningText");
+warningText.textContent = "";
+
 let startDateOutside;
 let endDateOutside;
+
+let blurIng = false;
+
 console.log("啟動A");
 
 
 inputStart.addEventListener("focus", function () {
+  console.log("A");
+  warningText.textContent = "";
   inputStart.focusVisible = true;
   startDateOutside = inputStart.value;
-  console.log("inputStart.focusVisible"+inputStart.focusVisible);
-
+  console.log("開始時間focus" + inputStart.focusVisible);
+  scrollBlock.style.height = "300px";
+  if (isNaN(Date.parse(inputStart.value))) {
+    yearSelector.select(now.getFullYear());
+    monthSelector.select(now.getMonth() + 1);
+    daySelector.select(now.getDate());
+  } else {
+    yearSelector.select(new Date(Date.parse(inputStart.value)).getFullYear());
+    monthSelector.select(new Date(Date.parse(inputStart.value)).getMonth() + 1);
+    daySelector.select(new Date(Date.parse(inputStart.value)).getDate());
+  }
+  ScrollDate();
 });
 
-inputStart.addEventListener("blur", function () {
-  inputStart.focusVisible = false;
-  inputStart.value = startDateOutside;
-  console.log("inputStart.focusVisible"+inputStart.focusVisible);
 
+
+inputStart.addEventListener("blur", function () {
+  warningText.textContent = "";
+  inputStart.focusVisible = false;
+  blurIng = true;
+  setTimeout(() => {
+    console.log("setTime");
+    if (blurIng) {
+      blurIng = false;
+      inputStart.value = startDateOutside;
+      scrollBlock.style.height = "0px";
+      console.log("開始blur沒有按其他btn");
+    }
+  }, 100);
+
+  btnCancel.addEventListener("click", function () {
+    blurIng = false;
+    inputStart.value = startDateOutside;
+    scrollBlock.style.height = "0px";
+  });
+
+  btnOk.addEventListener("click", function () {
+    blurIng = false;
+
+    if (isNaN(Date.parse(inputStart.value)) || isNaN(Date.parse(inputStart.value))) {
+      warningText.textContent = "不能空值";
+    } else if (Date.parse(inputStart.value) > Date.parse(inputEnd.value)) {
+      warningText.textContent = "結束日期不能大於開始日期";
+    } else {
+      
+      scrollBlock.style.height = "0px";
+      startDateOutside = inputStart.value;
+    };
+  });
+
+  inputEnd.addEventListener("focus", function () {
+    blurIng = false;
+    console.log("開始blur---按結束input");
+  });
 });
 
 inputEnd.addEventListener("focus", function () {
+  warningText.textContent = "";
   inputEnd.focusVisible = true;
-  EndtDateOutside = inputStart.value;
-  console.log("inputEnd.focusVisible"+inputEnd.focusVisible);
+  endDateOutside = inputEnd.value;
+  console.log("結束時間focus" + inputEnd.focusVisible);
+  scrollBlock.style.height = "300px";
+  if (isNaN(Date.parse(inputEnd.value))) {
+    yearSelector.select(now.getFullYear());
+    monthSelector.select(now.getMonth() + 1);
+    daySelector.select(now.getDate());
+  } else {
+    yearSelector.select(new Date(Date.parse(inputEnd.value)).getFullYear());
+    monthSelector.select(new Date(Date.parse(inputEnd.value)).getMonth() + 1);
+    daySelector.select(new Date(Date.parse(inputEnd.value)).getDate());
+  }
+  ScrollDate();
 
 });
 
 inputEnd.addEventListener("blur", function () {
+  warningText.textContent = "";
   inputEnd.focusVisible = false;
-  inputEnd.value = EndtDateOutside;
-  console.log("inputEnd.focusVisible"+inputEnd.focusVisible);
+  blurIng = true;
+  setTimeout(() => {
+    console.log("setTime");
+    if (blurIng) {
+      blurIng = false;
+      inputEnd.value = endDateOutside;
+      console.log("結束blur沒有按其他btn");
+    }
+  }, 100);
+  btnCancel.addEventListener("click", function () {
+    blurIng = false;
+    inputEnd.value = endDateOutside;
+    scrollBlock.style.height = "0px";
+  });
+
+  btnOk.addEventListener("click", function () {
+    blurIng = false;
+    if (isNaN(Date.parse(inputStart.value)) || isNaN(Date.parse(inputStart.value))) {
+      warningText.textContent = "不能空值";
+    } else if (Date.parse(inputStart.value) > Date.parse(inputEnd.value)) {
+      warningText.textContent = "結束日期不能大於開始日期";
+    } else {
+      
+      scrollBlock.style.height = "0px";
+      endDateOutside = inputEnd.value;
+    };
+  });
+
+  inputStart.addEventListener("focus", function () {
+    blurIng = false;
+    console.log("結束blur---按開始input")
+  });
 
 });
 
@@ -38,15 +137,14 @@ inputEnd.addEventListener("blur", function () {
 function ScrollDate() {
   console.log("ScrollDate()");
   if (inputStart.focusVisible) {
-    console.log("當開始時間focus");
-    inputStart.value = yearSelector.value + '-' + (monthSelector.value > 9 ? monthSelector.value : '0' + monthSelector.value) + '-' + daySelector.value;
-    console.log("當開始時間focus"+inputStart.value);
-  } else if (inputEnd.focusVisible) {
-    console.log("當結束時間focus");
-    inputEnd.value = yearSelector.value + '-' + (monthSelector.value > 9 ? monthSelector.value : '0' + monthSelector.value) + '-' + daySelector.value;
-    console.log("當結束時間focus"+inputEnd.value);
-  }
 
+    inputStart.value = yearSelector.value + '-' + (monthSelector.value > 9 ? monthSelector.value : '0' + monthSelector.value) + '-' + (daySelector.value > 9 ? daySelector.value : '0' + daySelector.value);
+
+  } else if (inputEnd.focusVisible) {
+
+    inputEnd.value = yearSelector.value + '-' + (monthSelector.value > 9 ? monthSelector.value : '0' + monthSelector.value) + '-' + (daySelector.value > 9 ? daySelector.value : '0' + daySelector.value);
+
+  }
 
 }
 
@@ -57,11 +155,11 @@ function ScrollDate() {
 // 以下原本的coding
 const easing = {
   easeOutCubic: function (pos) {
-    console.log("easeOutCubic");
+
     return (Math.pow((pos - 1), 3) + 1);
   },
   easeOutQuart: function (pos) {
-    console.log("easeOutQuart");
+
     return -(Math.pow((pos - 1), 4) - 1);
   },
 };
@@ -116,7 +214,7 @@ class IosSelector {
   }
 
   _init() {
-    console.log("_init");
+
     this._create(this.options.source);
 
     let touchData = {
@@ -148,7 +246,7 @@ class IosSelector {
   }
 
   _touchstart(e, touchData) {
-    console.log("_touchstart");
+
     this.elems.el.addEventListener('touchmove', this.events.touchmove);
     document.addEventListener('mousemove', this.events.touchmove);
     let eventY = e.clientY || e.touches[0].clientY;
@@ -159,7 +257,7 @@ class IosSelector {
   }
 
   _touchmove(e, touchData) {
-    console.log("_touchmove");
+
     let eventY = e.clientY || e.touches[0].clientY;
     touchData.yArr.push([eventY, new Date().getTime()]);
     if (touchData.length > 5) {
@@ -185,8 +283,8 @@ class IosSelector {
   }
 
   _touchend(e, touchData) {
-    console.log("_touchend");
-    console.log(e);
+
+    // console.log(e);
     this.elems.el.removeEventListener('touchmove', this.events.touchmove);
     document.removeEventListener('mousemove', this.events.touchmove);
 
@@ -215,7 +313,7 @@ class IosSelector {
 
   _create(source) {
 
-    console.log("_create");
+
 
     if (!source.length) {
       return;
@@ -330,7 +428,7 @@ class IosSelector {
    * @return 取模之后的 normalizedScroll
    */
   _normalizeScroll(scroll) {
-    console.log("_normalizeScroll");
+
     let normalizedScroll = scroll;
 
     while (normalizedScroll < 0) {
@@ -346,7 +444,7 @@ class IosSelector {
    * @return 返回指定 normalize 之后的 scroll
    */
   _moveTo(scroll) {
-    console.log("_moveTo");
+
     if (this.type === 'infinite') {
       scroll = this._normalizeScroll(scroll);
     }
@@ -515,7 +613,7 @@ class IosSelector {
 
 
 function getYears() {
-  console.log("getYears");
+
   let currentYear = new Date().getFullYear();
   let years = [];
 
@@ -556,7 +654,7 @@ function getDays(year, month) {
 console.log("啟動B");
 
 let currentYear = new Date().getFullYear();
-console.log("currentYear"+currentYear);
+console.log("currentYear" + currentYear);
 let currentMonth = 1;
 let currentDay = 1;
 
@@ -622,9 +720,11 @@ let now = new Date();
 
 
 setTimeout(function () {
-  console.log("setTimeout-GGGGGGGGGGGGGGGGGG");
+  console.log("setTimeout");
   yearSelector.select(now.getFullYear());
   monthSelector.select(now.getMonth() + 1);
   daySelector.select(now.getDate());
 });
 
+
+scrollBlock.style.height = "0px";
