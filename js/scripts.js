@@ -54,6 +54,7 @@ inputStart.addEventListener("blur", function () {
     blurIng = false;
     inputStart.value = startDateOutside;
     scrollBlock.style.height = "0px";
+    warningText.textContent = "";
   });
 
   btnOk.addEventListener("click", function () {
@@ -111,6 +112,7 @@ inputEnd.addEventListener("blur", function () {
     blurIng = false;
     inputEnd.value = endDateOutside;
     scrollBlock.style.height = "0px";
+    warningText.textContent = "";
   });
 
   btnOk.addEventListener("click", function () {
