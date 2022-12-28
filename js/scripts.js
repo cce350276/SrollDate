@@ -1,4 +1,4 @@
-// 嘗試t
+
 const inputStart = document.getElementById("date-input-start");
 const inputEnd = document.getElementById("date-input-end");
 const btnCancel = document.getElementById("cancelBtn");
@@ -6,23 +6,17 @@ const btnOk = document.getElementById("submitBtn");
 const scrollBlock = document.getElementsByClassName("scrollBlock")[0];
 const warningText = document.getElementById("warningText");
 warningText.textContent = "";
-
-let startDateOutside;
-let endDateOutside;
-
-let blurIng = false;
-
+inputStart.DateOutside;
+inputEnd.DateOutside;
+inputStart.blurIng = false;
+inputEnd.blurIng = false;
 console.log("啟動A");
-
-
-inputStart.addEventListener("focus", function () {
-  console.log("A");
-  warningText.textContent = "";
-  inputStart.focusVisible = true;
-  startDateOutside = inputStart.value;
-  console.log("開始時間focus" + inputStart.focusVisible);
-  scrollBlock.style.height = "300px";
-  if (isNaN(Date.parse(inputStart.value))) {
+//------------------------------方法-------------------------------------
+// 判別空值
+function isNANOrNot (x){
+  console.log("----------------------isNANOrNot-------------------------");
+  console.log(x);
+  if (isNaN(Date.parse(x))) {
     yearSelector.select(now.getFullYear());
     monthSelector.select(now.getMonth() + 1);
     daySelector.select(now.getDate());
@@ -30,125 +24,131 @@ inputStart.addEventListener("focus", function () {
     yearSelector.select(new Date(Date.parse(inputStart.value)).getFullYear());
     monthSelector.select(new Date(Date.parse(inputStart.value)).getMonth() + 1);
     daySelector.select(new Date(Date.parse(inputStart.value)).getDate());
+  };
+}
+// 當input focus的時候 獲得卷軸的數值
+function ScrollDate() {
+  console.log("ScrollDate()");
+  if (inputStart.focusVisible) {
+    inputStart.value = yearSelector.value + '-' + (monthSelector.value > 9 ? monthSelector.value : '0' + monthSelector.value) + '-' + (daySelector.value > 9 ? daySelector.value : '0' + daySelector.value);
+  } else if (inputEnd.focusVisible) {
+    inputEnd.value = yearSelector.value + '-' + (monthSelector.value > 9 ? monthSelector.value : '0' + monthSelector.value) + '-' + (daySelector.value > 9 ? daySelector.value : '0' + daySelector.value);
   }
-  ScrollDate();
+}
+function inputFocus(x){
+    console.log("----inputFocus(x)----");
+    warningText.textContent = "";
+    x.focusVisible = true;
+    x.DateOutside = x.value;
+    scrollBlock.style.height = "300px";
+    isNANOrNot(x.value);
+    ScrollDate();
+  
+};
+//Event
+inputStart.addEventListener("focus", function () {
+  console.log("----------------------開始Focus-------------------------");
+  inputFocus(inputStart);
 });
+inputEnd.addEventListener("focus", function () {
+  console.log("----------------------結束Focus-------------------------");
+  inputFocus(inputEnd);
+});
+
+//確認判別確認後呈現的數值
+
+function btnOKText(x){
+  if (isNaN(Date.parse(x.value)) || isNaN(Date.parse(x.value))) {
+    warningText.textContent = "不能空值";
+  } else if (Date.parse(inputStart.value) > Date.parse(inputEnd.value)) {
+    warningText.textContent = "結束日期不能大於開始日期";
+  } else {
+    scrollBlock.style.height = "0px";
+    x.DateOutside = x.value;
+  };
+
+}
+
 
 
 
 inputStart.addEventListener("blur", function () {
+  console.log("----------------------開始Blur-------------------------");
   warningText.textContent = "";
   inputStart.focusVisible = false;
-  blurIng = true;
+  inputStart.blurIng = true;
   setTimeout(() => {
     console.log("setTime");
-    if (blurIng) {
-      blurIng = false;
-      inputStart.value = startDateOutside;
+    if (inputStart.blurIng) {
+      inputStart.blurIng = false;
+      inputStart.value = inputStart.DateOutside;
       scrollBlock.style.height = "0px";
-      console.log("開始blur沒有按其他btn");
+      console.log("blur沒有按其他btn");
     }
-  }, 100);
-
-  btnCancel.addEventListener("click", function () {
-    blurIng = false;
-    inputStart.value = startDateOutside;
-    scrollBlock.style.height = "0px";
-    warningText.textContent = "";
-  });
-
-  btnOk.addEventListener("click", function () {
-    blurIng = false;
-
-    if (isNaN(Date.parse(inputStart.value)) || isNaN(Date.parse(inputStart.value))) {
-      warningText.textContent = "不能空值";
-    } else if (Date.parse(inputStart.value) > Date.parse(inputEnd.value)) {
-      warningText.textContent = "結束日期不能大於開始日期";
-    } else {
-      
-      scrollBlock.style.height = "0px";
-      startDateOutside = inputStart.value;
-    };
-  });
-
-  inputEnd.addEventListener("focus", function () {
-    blurIng = false;
-    console.log("開始blur---按結束input");
-  });
-});
-
-inputEnd.addEventListener("focus", function () {
-  warningText.textContent = "";
-  inputEnd.focusVisible = true;
-  endDateOutside = inputEnd.value;
-  console.log("結束時間focus" + inputEnd.focusVisible);
-  scrollBlock.style.height = "300px";
-  if (isNaN(Date.parse(inputEnd.value))) {
-    yearSelector.select(now.getFullYear());
-    monthSelector.select(now.getMonth() + 1);
-    daySelector.select(now.getDate());
-  } else {
-    yearSelector.select(new Date(Date.parse(inputEnd.value)).getFullYear());
-    monthSelector.select(new Date(Date.parse(inputEnd.value)).getMonth() + 1);
-    daySelector.select(new Date(Date.parse(inputEnd.value)).getDate());
-  }
-  ScrollDate();
+  }, 200);
 
 });
 
 inputEnd.addEventListener("blur", function () {
+  console.log("----------------------結束Blur-------------------------");
   warningText.textContent = "";
   inputEnd.focusVisible = false;
-  blurIng = true;
+  inputEnd.blurIng = true;
   setTimeout(() => {
     console.log("setTime");
-    if (blurIng) {
-      blurIng = false;
-      inputEnd.value = endDateOutside;
+    if (inputEnd.blurIng) {
+      inputEnd.blurIng = false;
+      inputEnd.value = inputEnd.DateOutside;
       console.log("結束blur沒有按其他btn");
     }
-  }, 100);
-  btnCancel.addEventListener("click", function () {
-    blurIng = false;
-    inputEnd.value = endDateOutside;
-    scrollBlock.style.height = "0px";
-    warningText.textContent = "";
-  });
-
-  btnOk.addEventListener("click", function () {
-    blurIng = false;
-    if (isNaN(Date.parse(inputStart.value)) || isNaN(Date.parse(inputStart.value))) {
-      warningText.textContent = "不能空值";
-    } else if (Date.parse(inputStart.value) > Date.parse(inputEnd.value)) {
-      warningText.textContent = "結束日期不能大於開始日期";
-    } else {
-      
-      scrollBlock.style.height = "0px";
-      endDateOutside = inputEnd.value;
-    };
-  });
-
-  inputStart.addEventListener("focus", function () {
-    blurIng = false;
-    console.log("結束blur---按開始input")
-  });
+  }, 200);
 
 });
 
-
-function ScrollDate() {
-  console.log("ScrollDate()");
-  if (inputStart.focusVisible) {
-
-    inputStart.value = yearSelector.value + '-' + (monthSelector.value > 9 ? monthSelector.value : '0' + monthSelector.value) + '-' + (daySelector.value > 9 ? daySelector.value : '0' + daySelector.value);
-
-  } else if (inputEnd.focusVisible) {
-
-    inputEnd.value = yearSelector.value + '-' + (monthSelector.value > 9 ? monthSelector.value : '0' + monthSelector.value) + '-' + (daySelector.value > 9 ? daySelector.value : '0' + daySelector.value);
-
+btnOk.addEventListener("click", function () {
+  if(inputStart.blurIng){
+  inputStart.blurIng = false;
+  btnOKText(inputStart);
+}else if(inputEnd.blurIng){
+  inputEnd.blurIng = false;
+  btnOKText(inputEnd);
   }
+});
 
-}
+btnCancel.addEventListener("click", function () {
+  if(inputStart.blurIng){
+  inputStart.blurIng = false;
+  
+  }else if(inputEnd.blurIng){
+    inputEnd.blurIng = false;
+    
+    };
+  
+  inputStart.value = inputStart.DateOutside;
+  inputEnd.value = inputEnd.DateOutside;
+  scrollBlock.style.height = "0px";
+  warningText.textContent = "";
+});
+
+inputEnd.addEventListener("focus", function () {
+  if(inputStart.blurIng){
+  inputStart.blurIng = false;
+  console.log("開始blur---按結束input");
+  };
+});
+
+inputStart.addEventListener("focus", function () {
+  if(inputEnd.blurIng){
+    inputEnd.blurIng = false;
+    console.log("結束blur---按開始input");
+    };
+});
+
+
+
+
+
+
 
 
 
