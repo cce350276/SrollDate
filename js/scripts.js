@@ -6,10 +6,16 @@ const btnOk = document.getElementById("submitBtn");
 const scrollBlock = document.getElementsByClassName("scrollBlock")[0];
 const warningText = document.getElementById("warningText");
 warningText.textContent = "";
-inputStart.DateOutside;
-inputEnd.DateOutside;
+// inputStart.DateOutside;
+// inputEnd.DateOutside;
 inputStart.blurIng = false;
 inputEnd.blurIng = false;
+// scrollBlock.style.height = "0px";
+
+console.log("scrollBlock.style.height");
+console.log(scrollBlock.style.height);
+console.log("(date-selector)[0].style.height");
+console.log(document.getElementsByClassName("date-selector")[0].style.height);
 console.log("啟動A");
 //------------------------------方法-------------------------------------
 // 判別空值
@@ -29,6 +35,11 @@ function isNANOrNot (x){
 // 當input focus的時候 獲得卷軸的數值
 function ScrollDate() {
   console.log("ScrollDate()");
+  console.log("scrollBlock.style.height");
+  console.log(scrollBlock.style.height);
+  console.log("(date-selector)[0].style.height");
+  console.log(document.getElementsByClassName("date-selector")[0].style.height);
+  console.log(document.getElementsByClassName("date-selector")[0].style.width);
   if (inputStart.focusVisible) {
     inputStart.value = yearSelector.value + '-' + (monthSelector.value > 9 ? monthSelector.value : '0' + monthSelector.value) + '-' + (daySelector.value > 9 ? daySelector.value : '0' + daySelector.value);
   } else if (inputEnd.focusVisible) {
@@ -58,13 +69,13 @@ inputEnd.addEventListener("focus", function () {
 //確認判別確認後呈現的數值
 
 function btnOKText(x){
-  if (isNaN(Date.parse(x.value)) || isNaN(Date.parse(x.value))) {
+  if (isNaN(Date.parse(inputStart.value)) || isNaN(Date.parse(inputEnd.value))) {
     warningText.textContent = "不能空值";
   } else if (Date.parse(inputStart.value) > Date.parse(inputEnd.value)) {
     warningText.textContent = "結束日期不能大於開始日期";
   } else {
     scrollBlock.style.height = "0px";
-    x.DateOutside = x.value;
+    // x.DateOutside = x.value;
   };
 
 }
@@ -81,7 +92,7 @@ inputStart.addEventListener("blur", function () {
     console.log("setTime");
     if (inputStart.blurIng) {
       inputStart.blurIng = false;
-      inputStart.value = inputStart.DateOutside;
+      // inputStart.value = inputStart.DateOutside;
       scrollBlock.style.height = "0px";
       console.log("blur沒有按其他btn");
     }
@@ -98,7 +109,7 @@ inputEnd.addEventListener("blur", function () {
     console.log("setTime");
     if (inputEnd.blurIng) {
       inputEnd.blurIng = false;
-      inputEnd.value = inputEnd.DateOutside;
+      // inputEnd.value = inputEnd.DateOutside;
       console.log("結束blur沒有按其他btn");
     }
   }, 200);
@@ -124,8 +135,8 @@ btnCancel.addEventListener("click", function () {
     
     };
   
-  inputStart.value = inputStart.DateOutside;
-  inputEnd.value = inputEnd.DateOutside;
+  // inputStart.value = inputStart.DateOutside;
+  // inputEnd.value = inputEnd.DateOutside;
   scrollBlock.style.height = "0px";
   warningText.textContent = "";
 });
@@ -206,6 +217,16 @@ class IosSelector {
       touchmove: null,
       touchend: null
     };
+    console.log("////////////////高度///////////////");
+
+    console.log(this.options);
+    console.log(this.elems);
+    console.log(this.elems.el);
+    // 我想知道clientHeight是從哪裡生成出來的
+    // 目前數值是跟".date-selector"的高度一樣
+    // 但是我放在popup裡面抓到的數值是0
+    console.log(this.elems.el.clientHeight);
+
 
     this.itemHeight = this.elems.el.offsetHeight * 3 / this.options.count; // 每项高度
     this.itemAngle = 360 / this.options.count; // 每项之间旋转度数
@@ -285,12 +306,14 @@ class IosSelector {
   }
 
   _touchend(e, touchData) {
+    console.log("tuch~~~~~~~~~~~~~~~~~~")
 
     // console.log(e);
     this.elems.el.removeEventListener('touchmove', this.events.touchmove);
     document.removeEventListener('mousemove', this.events.touchmove);
 
     let v;
+    console.log(touchData.yArr);
 
     if (touchData.yArr.length === 1) {
       v = 0;
@@ -669,6 +692,11 @@ monthSource = getMonths();
 daySource = getDays(currentYear, currentMonth);
 
 console.log("啟動C");
+console.log("scrollBlock.style.height");
+console.log(scrollBlock.style.height);
+console.log("(date-selector)[0].style.height");
+console.log(document.getElementsByClassName("date-selector")[0].style.height);
+
 yearSelector = new IosSelector({
   el: '#year1',
   type: 'infinite',
@@ -729,4 +757,4 @@ setTimeout(function () {
 });
 
 
-scrollBlock.style.height = "0px";
+

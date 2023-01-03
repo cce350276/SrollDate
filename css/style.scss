@@ -38,6 +38,7 @@ body {
 
   
   .select-wrap {
+    outline:red 2px solid;
 
     position: relative;
     // top: 200px;
@@ -65,6 +66,7 @@ body {
     }
   
     .select-options {
+      outline:rgb(12, 73, 94) 2px solid;
       position: absolute;
       top: 50%;
       left: 0;

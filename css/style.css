@@ -38,6 +38,7 @@ body {
 }
 
 .select-wrap {
+  outline: red 2px solid;
   position: relative;
   height: 100%;
   text-align: center;
@@ -64,6 +65,7 @@ body {
   background-image: linear-gradient(to top, #ccc, rgba(204, 204, 204, 0.479));
 }
 .select-wrap .select-options {
+  outline: rgb(12, 73, 94) 2px solid;
   position: absolute;
   top: 50%;
   left: 0;
